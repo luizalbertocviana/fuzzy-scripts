@@ -1,0 +1,7 @@
+#!/bin/sh
+
+history_commands=$(cat ~/.bash_history)
+
+command=$(echo "$history_commands" | sort | uniq | fzf)
+
+$command
