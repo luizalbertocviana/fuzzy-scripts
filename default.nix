@@ -19,7 +19,6 @@ in
     dontUnpack = true;
 
     buildInputs = [
-      pkgs.fzf
       histScript
     ];
 
