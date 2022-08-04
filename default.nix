@@ -7,10 +7,18 @@
 }:
 
 let
-  histScript = pkgs.writeScriptBin "hist" (pkgs.lib.pipe ./hist [
+  fzfScript = {scriptName, scriptSource}: pkgs.writeScriptBin scriptName (pkgs.lib.pipe scriptSource [
     builtins.readFile
-    (builtins.replaceStrings ["fzf"] ["${pkgs.fzf}/bin/fzf"]) 
+    (builtins.replaceStrings ["fzf"] ["${pkgs.fzf}/bin/fzf"])
   ]);
+  histScript = fzfScript {
+    scriptName = "hist";
+    scriptSource = ./hist;
+  };
+  jumpScript = fzfScript {
+    scriptName = "jump";
+    scriptSource = ./jump;
+  };
 in
   pkgs.stdenv.mkDerivation {
     pname = "fuzzy-scripts";
@@ -20,10 +28,12 @@ in
 
     buildInputs = [
       histScript
+      jumpScript
     ];
 
     installPhase = ''
       mkdir -p $out/bin
       ln -s ${histScript}/bin/hist $out/bin/hist
+      ln -s ${histScript}/bin/jump $out/bin/jump
     '';
   }

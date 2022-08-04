@@ -1,0 +1,9 @@
+#!/bin/sh
+
+jump() {
+    all_directories=$(find / -type d 2> /dev/null)
+
+    selected_directory=$(echo "$all_directories" | sort | uniq | fzf)
+
+    cd "$selected_directory"
+}
