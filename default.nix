@@ -11,29 +11,15 @@ let
     builtins.readFile
     (builtins.replaceStrings ["fzf"] ["${pkgs.fzf}/bin/fzf"])
   ]);
-  histScript = fzfScript {
+  hist = fzfScript {
     scriptName = "hist";
     scriptSource = ./hist;
   };
-  jumpScript = fzfScript {
+  jump = fzfScript {
     scriptName = "jump";
     scriptSource = ./jump;
   };
 in
-  pkgs.stdenv.mkDerivation {
-    pname = "fuzzy-scripts";
-    version = "0.1.0";
-
-    dontUnpack = true;
-
-    buildInputs = [
-      histScript
-      jumpScript
-    ];
-
-    installPhase = ''
-      mkdir -p $out/bin
-      ln -s ${histScript}/bin/hist $out/bin/hist
-      ln -s ${histScript}/bin/jump $out/bin/jump
-    '';
+  {
+    inherit hist jump;
   }
