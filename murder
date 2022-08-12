@@ -1,0 +1,13 @@
+#!/bin/sh
+
+all_processes=$(pgrep . -l)
+
+selected_process=$(echo "$all_processes" | cut -d' ' -f2 | sort | uniq | fzf)
+
+pid_list="$(pgrep $selected_process)"
+
+kill_command="$(which kill)"
+
+for pid in $pid_list; do
+    $kill_command $@ $pid
+done

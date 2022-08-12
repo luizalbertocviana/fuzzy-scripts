@@ -19,7 +19,11 @@ let
     scriptName = "jump";
     scriptSource = ./jump;
   };
+  murder = fzfScript {
+    scriptName = "murder";
+    scriptSource = ./murder;
+  };
 in
   {
-    inherit hist jump;
+    inherit hist jump murder;
   }
