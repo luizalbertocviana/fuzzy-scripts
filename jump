@@ -1,9 +1,17 @@
 #!/bin/sh
 
-jump() {
-    all_directories=$(find / -type d 2> /dev/null)
+jump_db_file=$HOME/.jump_db
 
-    selected_directory=$(echo "$all_directories" | sort | uniq | fzf)
+jump() {
+    all_directories=$(cat $jump_db_file)
+
+    selected_directory=$(echo "$all_directories" | fzf)
 
     cd "$selected_directory"
+}
+
+build_jump_db() {
+    all_directories=$(find / -type d 2> /dev/null)
+
+    echo "$all_directories" | sort | uniq > $jump_db_file
 }
